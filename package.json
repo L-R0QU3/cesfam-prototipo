@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cd frontend && npm run build",
-    "install:backend": "cd backend && npm install --legacy-peer-deps",
-    "install:frontend": "cd frontend && npm install --legacy-peer-deps",
+    "build": "npm run build --prefix frontend",
+    "install:backend": "npm install --legacy-peer-deps --prefix backend",
+    "install:frontend": "npm install --legacy-peer-deps --prefix frontend",
     "install:all": "npm run install:backend && npm run install:frontend"
   }
 }
