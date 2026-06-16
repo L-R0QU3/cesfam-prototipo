@@ -20,5 +20,5 @@
       "dest": "frontend/index.html"
     }
   ],
-  "installCommand": "npm install --legacy-peer-deps --prefix backend && npm install --legacy-peer-deps --prefix frontend"
+  "installCommand": "cd backend && npm install --legacy-peer-deps && cd ../frontend && npm install --legacy-peer-deps"
 }
