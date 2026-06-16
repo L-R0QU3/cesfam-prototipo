@@ -1,12 +1,15 @@
 import axios from 'axios';
 
+// Usar baseURL relativa en producción, o la URL de desarrollo si está definida
+const baseURL = import.meta.env.VITE_API_URL || '';
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
+  baseURL,
   timeout: 10000,
   headers: { 'Content-Type': 'application/json' },
 });
 
-// Agregar token JWT en cada request si existe
+// Interceptor de request (token JWT)
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('cesfam_token');
   if (token) {
@@ -15,7 +18,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Manejar errores globalmente
+// Interceptor de respuesta (manejo de 401)
 api.interceptors.response.use(
   (response) => response,
   (error) => {
