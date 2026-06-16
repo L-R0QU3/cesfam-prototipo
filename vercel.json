@@ -19,5 +19,6 @@
       "src": "/(.*)",
       "dest": "frontend/index.html"
     }
-  ]
+  ],
+  "installCommand": "npm install --legacy-peer-deps --prefix backend && npm install --legacy-peer-deps --prefix frontend"
 }
