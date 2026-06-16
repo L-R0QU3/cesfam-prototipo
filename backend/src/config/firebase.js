@@ -1,20 +1,11 @@
-// backend/src/config/firebase.js
 const admin = require('firebase-admin');
 const fs = require('fs');
 const path = require('path');
-
-// ── Verificar instalación ──────────────────────────────────
-if (!admin || typeof admin.initializeApp !== 'function') {
-  console.error('❌ firebase-admin no se cargó correctamente.');
-  console.error('   Ejecuta: pnpm add firebase-admin');
-  process.exit(1);
-}
 
 // ── Función para cargar credenciales ──────────────────────
 function loadServiceAccount() {
   // 1. Variables de entorno (producción)
   if (process.env.NODE_ENV === 'production' && process.env.FIREBASE_PROJECT_ID) {
-    console.log('🔐 Usando credenciales de entorno (producción)');
     return {
       type: process.env.FIREBASE_TYPE,
       project_id: process.env.FIREBASE_PROJECT_ID,
@@ -55,46 +46,16 @@ try {
   process.exit(1);
 }
 
-// ── Método 1: admin.credential.cert (estándar) ────────────
-if (admin.credential && typeof admin.credential.cert === 'function') {
-  if (!admin.apps || admin.apps.length === 0) {
-    try {
-      admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
-      });
-      console.log('✅ Firebase Admin inicializado (método estándar)');
-    } catch (error) {
-      console.error('❌ Error en inicialización estándar:', error.message);
-      process.exit(1);
-    }
-  } else {
-    console.log('ℹ️ Firebase Admin ya estaba inicializado');
-  }
+// Inicializar solo si no hay una instancia previa
+if (!admin.apps || admin.apps.length === 0) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+  console.log('✅ Firebase Admin inicializado correctamente');
 } else {
-  // ── Método 2: Usar módulo credential separado (firebase-admin >= 11) ──
-  console.log('ℹ️ admin.credential no disponible, usando módulo credential...');
-  try {
-    const credential = require('firebase-admin/credential');
-    if (!admin.apps || admin.apps.length === 0) {
-      admin.initializeApp({
-        credential: credential.cert(serviceAccount),
-      });
-      console.log('✅ Firebase Admin inicializado (módulo credential)');
-    }
-  } catch (err) {
-    console.error('❌ Error cargando firebase-admin/credential:', err.message);
-    console.error('   Asegúrate de tener instalada la versión correcta: pnpm add firebase-admin@11.11.0');
-    process.exit(1);
-  }
-}
-
-// ── Verificar que la inicialización fue exitosa ────────────
-if (!admin.firestore) {
-  console.error('❌ Firebase no se inicializó correctamente');
-  process.exit(1);
+  console.log('ℹ️ Firebase Admin ya estaba inicializado');
 }
 
 const db = admin.firestore();
-console.log('✅ Firestore listo para usar');
 
 module.exports = { admin, db };
