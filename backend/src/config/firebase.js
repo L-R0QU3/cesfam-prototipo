@@ -1,11 +1,9 @@
 const admin = require('firebase-admin');
-const fs = require('fs');
-const path = require('path');
 
-// ── Función para cargar credenciales ──────────────────────
+// ── Cargar credenciales ──────────────────────────────────────
 function loadServiceAccount() {
-  // 1. Variables de entorno (producción)
-  if (process.env.NODE_ENV === 'production' && process.env.FIREBASE_PROJECT_ID) {
+  // En producción, usar variables de entorno OBLIGATORIAMENTE
+  if (process.env.NODE_ENV === 'production') {
     return {
       type: process.env.FIREBASE_TYPE,
       project_id: process.env.FIREBASE_PROJECT_ID,
@@ -20,20 +18,19 @@ function loadServiceAccount() {
     };
   }
 
-  // 2. Archivo local (desarrollo)
+  // En desarrollo, usar archivo local
+  const fs = require('fs');
+  const path = require('path');
   const posiblesRutas = [
-    path.join(__dirname, '../../firebase-admin-key.json'), // backend/
-    path.join(__dirname, './firebase-admin-key.json'),     // backend/src/config/
-    path.join(__dirname, '../firebase-admin-key.json'),    // backend/src/
+    path.join(__dirname, '../../firebase-admin-key.json'),
+    path.join(__dirname, './firebase-admin-key.json'),
+    path.join(__dirname, '../firebase-admin-key.json'),
   ];
-
   for (const ruta of posiblesRutas) {
     if (fs.existsSync(ruta)) {
-      console.log(`✅ Cargando credenciales desde: ${ruta}`);
       return JSON.parse(fs.readFileSync(ruta, 'utf8'));
     }
   }
-
   throw new Error('No se encontraron credenciales de Firebase.');
 }
 
@@ -46,7 +43,6 @@ try {
   process.exit(1);
 }
 
-// Inicializar solo si no hay una instancia previa
 if (!admin.apps || admin.apps.length === 0) {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -57,5 +53,4 @@ if (!admin.apps || admin.apps.length === 0) {
 }
 
 const db = admin.firestore();
-
 module.exports = { admin, db };
