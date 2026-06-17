@@ -12,7 +12,7 @@
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "frontend/dist",
+        "distDir": "dist", 
         "runtime": "nodejs20.x"
       }
     }
@@ -24,7 +24,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "frontend/index.html"
+      "dest": "index.html" 
     }
   ]
 }
