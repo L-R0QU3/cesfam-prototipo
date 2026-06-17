@@ -17,6 +17,6 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: 'dist', // 👈 Genera frontend/dist
+    outDir: 'dist', // 👈 Esto generará frontend/dist
   },
 });
