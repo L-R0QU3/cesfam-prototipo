@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "npm run build --prefix frontend",
+    "build": "cd frontend && npm run build",
     "install:backend": "npm install --legacy-peer-deps --prefix backend",
     "install:frontend": "npm install --legacy-peer-deps --prefix frontend",
     "install:all": "npm run install:backend && npm run install:frontend"
