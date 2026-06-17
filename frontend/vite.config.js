@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
@@ -18,7 +17,6 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: path.resolve(__dirname, '../dist'), // 👈 Genera dist en la raíz del proyecto
-    emptyOutDir: true,
+    outDir: 'dist', // 👈 Genera frontend/dist
   },
 });
