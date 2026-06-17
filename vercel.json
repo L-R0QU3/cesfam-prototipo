@@ -10,11 +10,7 @@
     },
     {
       "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "frontend/dist",
-        "runtime": "nodejs20.x"
-      }
+      "use": "@vercel/static-build"
     }
   ],
   "routes": [
@@ -24,7 +20,8 @@
     },
     {
       "src": "/(.*)",
-      "dest": "frontend/index.html"
+      "dest": "/frontend/index.html"
     }
-  ]
+  ],
+  "outputDirectory": "frontend/dist"
 }
