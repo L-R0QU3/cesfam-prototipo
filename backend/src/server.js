@@ -1,4 +1,3 @@
-// backend/src/server.js
 const app = require('./app');
 const logger = require('./config/logger');
 
@@ -6,7 +5,7 @@ const PORT = process.env.PORT || 3000;
 
 const startServer = async () => {
   try {
-    // Verificar conexión a BD (opcional, si usas base de datos)
+    // Opcional: verificar conexión a BD si usas una
     // await db.query('SELECT NOW()');
     logger.info('✅ Base de datos conectada');
 
